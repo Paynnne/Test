@@ -1,0 +1,43 @@
+ext {
+    androidBuildToolsVerson = "26.0.0"          //构建工具版本
+    androidMinSdkVerion = 19                    //运行最低要求
+    androidTargetSdkVersion = 26                //最大版本
+    androidCompileSdkVersion = 26               //Gradle编译版本
+    androidVersionCode = 1                      //版本号
+    androidVersionName = "1.0"                  //版本名称
+
+
+    setDefaultConfig = {
+        extension ->
+            extension.compileSdkVersion ext.androidCompileSdkVersion
+            extension.buildToolsVersion ext.androidBuildToolsVerson
+            extension.defaultConfig {
+                minSdkVersion rootProject.ext.androidMinSdkVerion
+                targetSdkVersion rootProject.ext.androidTargetSdkVersion
+                versionCode rootProject.ext.androidVersionCode
+                versionName rootProject.ext.androidVersionName
+                javaCompileOptions {
+                    annotationProcessorOptions {
+                        arguments = [moduleName: project.getName()]
+                    }
+                }
+
+            }
+    }
+
+    appcompatVersion = '26+'
+    arouterApiVersion = '1.2.1.1'
+    arouterCompileVersion = '1.1.2.1'
+    heartLayoutVersion = '1.0.1'
+
+    isBuildMoudle = false//是否构建Moudle
+
+
+    dependencies = [
+            appcompat      : "com.android.support:appcompat-v7:${appcompatVersion}",
+            //路由跳转
+            arouter_api    : "com.alibaba:arouter-api:${arouterApiVersion}",
+            arouter_compile: "com.alibaba:arouter-compiler:${arouterCompileVersion}",
+            heart_layout   : "tyrant:heartlayout:${heartLayoutVersion}"
+    ]
+}

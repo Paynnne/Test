@@ -1,0 +1,50 @@
+if (rootProject.ext.isBuildMoudle) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+}
+apply plugin: 'me.tatarka.retrolambda'
+android {
+    rootProject.ext.setDefaultConfig android
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+
+    sourceSets {
+        main {
+            if (rootProject.ext.isBuildMoudle) {
+                manifest.srcFile 'src/main/debug/AndroidManifest.xml'
+            } else {
+                manifest.srcFile 'src/main/release/AndroidManifest.xml'
+                java {
+                    exclude 'com/vayne/redheart/app/**'
+                }
+            }
+        }
+    }
+
+    resourcePrefix "redheart_"
+
+}
+
+
+def dependency = rootProject.ext.dependencies
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile project(':commonlib')
+    //组件化后arouter每次组件都要加上
+    compile dependency['arouter_compile']
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+}
